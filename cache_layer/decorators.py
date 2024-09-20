@@ -3,13 +3,9 @@
 import json
 from django.core.cache import cache
 from functools import wraps
+from rest_framework.response import Response
 
 def cache_decorator(ttl=300):
-    """
-    A caching decorator that caches the response of a view for a specified time.
-    
-    :param ttl: Time-to-live for cache in seconds (default is 300 seconds)
-    """
     def decorator(view_func):
         @wraps(view_func)
         def _wrapped_view(request, *args, **kwargs):
@@ -20,17 +16,18 @@ def cache_decorator(ttl=300):
 
             # Check if the response is cached
             cached_response = cache.get(cache_key)
-            if cached_response:
-                print('showing cached response.')
-                return cached_response
+            if cached_response: 
+                print('showing cached response.!!!!!!')
+                return Response(cached_response)
 
             # Call the original view function
             response = view_func(request, *args, **kwargs)
 
-            # Store the response in the cache
-            cache.set(cache_key, response, ttl)
-            print('showing normal response.')
-
+            # Cache the response based on its type
+            if isinstance(response, Response):
+                cached_data = response.data  # Get the data from the DRF Response
+                cache.set(cache_key, cached_data, ttl)
+            print('showing normal response.!!!!!!!!!!')
             return response
         
         return _wrapped_view
