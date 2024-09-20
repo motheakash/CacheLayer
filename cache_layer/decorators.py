@@ -21,6 +21,7 @@ def cache_decorator(ttl=300):
             # Check if the response is cached
             cached_response = cache.get(cache_key)
             if cached_response:
+                print('showing cached response.')
                 return cached_response
 
             # Call the original view function
@@ -28,6 +29,7 @@ def cache_decorator(ttl=300):
 
             # Store the response in the cache
             cache.set(cache_key, response, ttl)
+            print('showing normal response.')
 
             return response
         
