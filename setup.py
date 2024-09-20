@@ -13,7 +13,7 @@ setup(
     description='Custom caching layer for Django views',
     author='Akash Mothe',
     author_email='motheakash11@gmail.com',
-    url='https://github.com/your-username/CacheLayer',
+    url='https://github.com/motheakash/CacheLayer.git',
     classifiers=[
         'Development Status :: 3 - Alpha',
         'Framework :: Django',
